@@ -7,16 +7,32 @@
 
 import SwiftUI
 
+struct ToDo: Identifiable {
+  let id = UUID()
+  let name: String
+}
+
 struct ContentView: View {
+  @State private var toDos = [
+    ToDo(name: "Learn Swift UI"),
+    ToDo(name: "Build an app"),
+    ToDo(name: "Release the app")
+  ]
+  
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+      VStack {
+        List {
+          ForEach(toDos) { toDo in
+            Text(toDo.name)
+          }
+          .onDelete(perform: delete)
         }
-        .padding()
+      }
     }
+  
+  func delete(at offset: IndexSet) {
+    toDos.remove(atOffsets: offset)
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
