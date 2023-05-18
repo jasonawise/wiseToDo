@@ -7,36 +7,52 @@
 
 import SwiftUI
 
+struct ToDoDetails: Identifiable {
+  let id = UUID()
+  let status: String
+}
+
 struct ToDo: Identifiable {
   let id = UUID()
   let name: String
+  var details: [ToDoDetails]?
 }
 
 struct ContentView: View {
   @State private var toDos = [
-    ToDo(name: "Learn Swift UI"),
-    ToDo(name: "Build an app"),
-    ToDo(name: "Release the app")
+    ToDo(name: "Learn Swfit UI", details: [ToDoDetails(status: "todo")]),
+    ToDo(name: "Build an app",  details: [ToDoDetails(status: "todo")]),
+    ToDo(name: "Release the app",  details: [ToDoDetails(status: "completed")])
   ]
   
-    var body: some View {
-      VStack {
-        List {
-          ForEach(toDos) { toDo in
-            Text(toDo.name)
+  var body: some View {
+    VStack {
+      ForEach(toDos) { todo in
+        CollapsibleView(
+          label: { Text(todo.name) },
+          content: {
+            ForEach(todo.details!) { detail in
+              HStack {
+                Text(detail.status)
+                Spacer()
+              }
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.secondary)
           }
-          .onDelete(perform: delete)
-        }
+        )
+        .frame(maxWidth: .infinity)
+        .padding()
       }
+      Spacer()
     }
-  
-  func delete(at offset: IndexSet) {
-    toDos.remove(atOffsets: offset)
   }
 }
 
+  
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }

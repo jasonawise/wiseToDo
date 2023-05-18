@@ -11,6 +11,7 @@
 		2CD3F6192A14662600394B20 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3F6182A14662600394B20 /* ContentView.swift */; };
 		2CD3F61B2A14662700394B20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CD3F61A2A14662700394B20 /* Assets.xcassets */; };
 		2CD3F61E2A14662700394B20 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CD3F61D2A14662700394B20 /* Preview Assets.xcassets */; };
+		2CD3F6272A15C4AE00394B20 /* CollapsibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3F6262A15C4AE00394B20 /* CollapsibleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		2CD3F6182A14662600394B20 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2CD3F61A2A14662700394B20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CD3F61D2A14662700394B20 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2CD3F6262A15C4AE00394B20 /* CollapsibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsibleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 				2CD3F6182A14662600394B20 /* ContentView.swift */,
 				2CD3F61A2A14662700394B20 /* Assets.xcassets */,
 				2CD3F61C2A14662700394B20 /* Preview Content */,
+				2CD3F6262A15C4AE00394B20 /* CollapsibleView.swift */,
 			);
 			path = wiseToDo;
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CD3F6272A15C4AE00394B20 /* CollapsibleView.swift in Sources */,
 				2CD3F6192A14662600394B20 /* ContentView.swift in Sources */,
 				2CD3F6172A14662600394B20 /* wiseToDoApp.swift in Sources */,
 			);
