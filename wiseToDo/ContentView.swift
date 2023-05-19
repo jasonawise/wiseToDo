@@ -21,36 +21,29 @@ struct ToDo: Identifiable {
 struct ContentView: View {
   @State private var toDos = [
     ToDo(name: "Learn Swfit UI", details: [ToDoDetails(status: "todo")]),
-    ToDo(name: "Build an app",  details: [ToDoDetails(status: "todo")]),
-    ToDo(name: "Release the app",  details: [ToDoDetails(status: "completed")])
+    ToDo(name: "Build an app", details: [ToDoDetails(status: "todo")]),
+    ToDo(name: "Release the app", details: [ToDoDetails(status: "completed")])
   ]
-  
+
   var body: some View {
     VStack {
-      ForEach(toDos) { todo in
-        CollapsibleView(
-          label: { Text(todo.name) },
-          content: {
-            ForEach(todo.details!) { detail in
-              HStack {
-                Text(detail.status)
-                Spacer()
-              }
+      NavigationView {
+        List {
+          ForEach(toDos) { todo in
+            NavigationLink(destination: ToDoDetailView(toDoDetails: todo)) {
+              Text(todo.name)
             }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.secondary)
           }
-        )
-        .frame(maxWidth: .infinity)
-        .padding()
+          .onDelete { indexSet in
+            toDos.remove(atOffsets: indexSet)
+          }
+        }
+        .navigationTitle("To Do's")
       }
-      Spacer()
     }
   }
 }
 
-  
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView()
