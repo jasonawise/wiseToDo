@@ -39,6 +39,16 @@ struct ContentView: View {
           }
         }
         .navigationTitle("To Do's")
+        .toolbar {
+          ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+              // Add action for the toolbar button
+            }) {
+              Image(systemName: "gear")
+            }
+          }
+          }
+        
       }
     }
   }
