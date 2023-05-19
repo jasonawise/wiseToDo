@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
   @ObservedObject var data = ToDoModel()
-
+  @State private var isShowingSheet = false
+  
   var body: some View {
     VStack {
       NavigationView {
@@ -26,10 +27,10 @@ struct ContentView: View {
         .navigationTitle("To Do's")
         .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
-            Button(action: {
-              // Add action for the toolbar button
-            }) {
-              Image(systemName: "gear")
+            NavigationLink(destination: SettingsView()) {
+              HStack {
+                Image(systemName: "gear")
+              }
             }
           }
         }
@@ -40,7 +41,7 @@ struct ContentView: View {
           HStack {
             Spacer()
             Button(action: {
-              // Add action for the plus button
+              isShowingSheet = true
             }) {
               Image(systemName: "plus")
                 .padding()
@@ -53,6 +54,9 @@ struct ContentView: View {
           }
         }
       )
+      .sheet(isPresented: $isShowingSheet) {
+        AddToDoView()
+      }
     }
   }
 }
