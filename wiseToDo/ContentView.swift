@@ -7,35 +7,20 @@
 
 import SwiftUI
 
-struct ToDoDetails: Identifiable {
-  let id = UUID()
-  let status: String
-}
-
-struct ToDo: Identifiable {
-  let id = UUID()
-  let name: String
-  var details: [ToDoDetails]?
-}
-
 struct ContentView: View {
-  @State private var toDos = [
-    ToDo(name: "Learn Swfit UI", details: [ToDoDetails(status: "todo")]),
-    ToDo(name: "Build an app", details: [ToDoDetails(status: "todo")]),
-    ToDo(name: "Release the app", details: [ToDoDetails(status: "completed")])
-  ]
+  @ObservedObject var data = ToDoModel()
 
   var body: some View {
     VStack {
       NavigationView {
         List {
-          ForEach(toDos) { todo in
+          ForEach(data.toDos) { todo in
             NavigationLink(destination: ToDoDetailView(toDoDetails: todo)) {
               Text(todo.name)
             }
           }
           .onDelete { indexSet in
-            toDos.remove(atOffsets: indexSet)
+            data.toDos.remove(atOffsets: indexSet)
           }
         }
         .navigationTitle("To Do's")
@@ -47,9 +32,27 @@ struct ContentView: View {
               Image(systemName: "gear")
             }
           }
-          }
-        
+        }
       }
+      .overlay(
+        VStack {
+          Spacer()
+          HStack {
+            Spacer()
+            Button(action: {
+              // Add action for the plus button
+            }) {
+              Image(systemName: "plus")
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .font(.title)
+                .clipShape(Circle())
+            }
+            .padding()
+          }
+        }
+      )
     }
   }
 }
