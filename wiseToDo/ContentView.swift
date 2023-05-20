@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-  @ObservedObject var data = ToDoModel()
-  @State private var isShowingSheet = false
+  @StateObject private var data = ToDoModel()
   
   var body: some View {
     VStack {
@@ -41,7 +40,7 @@ struct ContentView: View {
           HStack {
             Spacer()
             Button(action: {
-              isShowingSheet = true
+              data.isSheetShowing = true
             }) {
               Image(systemName: "plus")
                 .padding()
@@ -54,8 +53,15 @@ struct ContentView: View {
           }
         }
       )
-      .sheet(isPresented: $isShowingSheet) {
-        AddToDoView()
+      .sheet(isPresented: $data.isSheetShowing ) {
+        AddToDoView(data: data)
+      }
+      .onChange(of: data.isSheetShowing) { isSheetShowing in
+        if !isSheetShowing {
+          withAnimation(.easeOut(duration: 0.95)) {
+            // Any additional view updates or actions when the sheet closes
+          }
+        }
       }
     }
   }

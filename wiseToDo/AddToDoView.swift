@@ -9,25 +9,32 @@ import SwiftUI
 
 struct AddToDoView: View {
   @State private var name: String = ""
-  @State private var selectedOption: String = "Option 1"
-  let options = ["to do", "in progress", "completed"]
-
+  @State private var selectedOption: String = "To do"
+  @ObservedObject var status = ToDoStatusModel()
+  @ObservedObject var data = ToDoModel()
+  
   var body: some View {
     Form {
-      Section(header: Text("What Do you want to do?")) {
+      Section(header: Text("What do you want to do?")) {
         TextField("Todo ....", text: $name)
       }
-
+      
       Section(header: Text("Status")) {
         Picker(selection: $selectedOption, label: Text("Select an option")) {
-          ForEach(options, id: \.self) { option in
-            Text(option)
+          ForEach(status.status, id: \.status) { option in
+            Text(option.status)
           }
         }
-      }
-      Button("Add") {
-        // action to add to do
-      }
+        
+        Button(action: {
+          data.addToDo(toDoName: name)
+          data.isSheetShowing.toggle()
+        }) {
+          Text("Add")
+        }
+        
+    }
+     
     }
   }
 }

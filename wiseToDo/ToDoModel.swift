@@ -18,15 +18,17 @@ struct ToDoDetails: Identifiable {
   let status: String
 }
 
+
 class ToDoModel: ObservableObject {
   @Published var toDos: [ToDo] = [
-    ToDo(name: "Learn Swfit UI", details: [ToDoDetails(status: "todo")]),
-    ToDo(name: "Build an app", details: [ToDoDetails(status: "todo")]),
-    ToDo(name: "Release the app", details: [ToDoDetails(status: "completed")])
+    ToDo(name: "Learn Swfit UI", details: [ToDoDetails(status: "To do")]),
+    ToDo(name: "Build an app", details: [ToDoDetails(status: "To do")]),
+    ToDo(name: "Release the app", details: [ToDoDetails(status: "Completed")])
   ]
   
-  
-  func addToDo() {
-    toDos.append(ToDo(name: "Learning how to add function from model", details: [ToDoDetails(status: "in progress")]))
+  @Published var isSheetShowing: Bool = false
+
+  func addToDo(toDoName: String) {
+    toDos.append(ToDo(name: toDoName, details: [ToDoDetails(status: "To do")]))
   }
 }
