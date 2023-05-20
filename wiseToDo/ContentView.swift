@@ -6,21 +6,30 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
-  @StateObject private var data = ToDoModel()
+//  @StateObject private var data = ToDoModel()
+  @State private var isSheetShowing: Bool = false
+  @Environment(\.managedObjectContext) private var viewContext
+
+  
+  @FetchRequest(
+    sortDescriptors: [NSSortDescriptor(keyPath: \ToDoEntity.name, ascending: true)],
+    animation: .default)
+  private var todos: FetchedResults<ToDoEntity>
   
   var body: some View {
     VStack {
       NavigationView {
         List {
-          ForEach(data.toDos) { todo in
+          ForEach(todos) { todo in
             NavigationLink(destination: ToDoDetailView(toDoDetails: todo)) {
-              Text(todo.name)
+              Text(todo.name ?? "")
             }
           }
           .onDelete { indexSet in
-            data.toDos.remove(atOffsets: indexSet)
+            deleteToDoEntries(at: indexSet)
           }
         }
         .navigationTitle("To Do's")
@@ -33,6 +42,7 @@ struct ContentView: View {
             }
           }
         }
+        
       }
       .overlay(
         VStack {
@@ -40,7 +50,11 @@ struct ContentView: View {
           HStack {
             Spacer()
             Button(action: {
-              data.isSheetShowing = true
+              isSheetShowing = true
+              let newTodo = ToDoEntity(context: CoreDataStack.shared.context)
+              newTodo.name = "New To DO from core data again!! with status"
+              newTodo.status = "To do"
+              CoreDataStack.shared.saveContext()
             }) {
               Image(systemName: "plus")
                 .padding()
@@ -53,10 +67,10 @@ struct ContentView: View {
           }
         }
       )
-      .sheet(isPresented: $data.isSheetShowing ) {
-        AddToDoView(data: data)
+      .sheet(isPresented: $isSheetShowing ) {
+//        AddToDoView(data: data)
       }
-      .onChange(of: data.isSheetShowing) { isSheetShowing in
+      .onChange(of: isSheetShowing) { isSheetShowing in
         if !isSheetShowing {
           withAnimation(.easeOut(duration: 0.95)) {
             // Any additional view updates or actions when the sheet closes
@@ -64,8 +78,27 @@ struct ContentView: View {
         }
       }
     }
+    .onDisappear {
+      CoreDataStack.shared.saveContext()
+    }
   }
+  
+  private func deleteToDoEntries(at offsets: IndexSet) {
+    offsets.forEach { index in
+      let todo = todos[index]
+      viewContext.delete(todo)
+    }
+    
+    do {
+      try viewContext.save()
+    } catch {
+      print("Error deleting entries: \(error)")
+    }
+  }
+   
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
