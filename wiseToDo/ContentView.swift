@@ -20,7 +20,6 @@ struct ContentView: View {
 
   var body: some View {
     VStack {
-      
       NavigationView {
         List {
           ForEach(todos) { todo in
@@ -33,24 +32,21 @@ struct ContentView: View {
           }
         }
         .navigationTitle("Task List")
-        
+
         .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink(destination: SettingsView()) {
+            NavigationLink(destination: FilterTaskView()) {
               HStack {
                 Image(systemName: "line.3.horizontal.decrease.circle")
-                  
-                  
               }
             }
           }
           ToolbarItem(placement: .navigationBarLeading) {
             NavigationLink(destination: SettingsView()) {
               HStack {
-                Image(systemName:  "gear")
+                Image(systemName: "gear")
               }
             }
-
           }
         }
       }
