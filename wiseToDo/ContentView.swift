@@ -5,22 +5,22 @@
 //  Created by Jason Wise on 5/16/23.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ContentView: View {
-//  @StateObject private var data = ToDoModel()
   @State private var isSheetShowing: Bool = false
   @Environment(\.managedObjectContext) private var viewContext
 
-  
   @FetchRequest(
     sortDescriptors: [NSSortDescriptor(keyPath: \ToDoEntity.name, ascending: true)],
-    animation: .default)
+    animation: .default
+  )
   private var todos: FetchedResults<ToDoEntity>
-  
+
   var body: some View {
     VStack {
+      
       NavigationView {
         List {
           ForEach(todos) { todo in
@@ -32,17 +32,27 @@ struct ContentView: View {
             deleteToDoEntries(at: indexSet)
           }
         }
-        .navigationTitle("To Do's")
+        .navigationTitle("Task List")
+        
         .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
             NavigationLink(destination: SettingsView()) {
               HStack {
-                Image(systemName: "gear")
+                Image(systemName: "line.3.horizontal.decrease.circle")
+                  
+                  
               }
             }
           }
+          ToolbarItem(placement: .navigationBarLeading) {
+            NavigationLink(destination: SettingsView()) {
+              HStack {
+                Image(systemName:  "gear")
+              }
+            }
+
+          }
         }
-        
       }
       .overlay(
         VStack {
@@ -51,10 +61,6 @@ struct ContentView: View {
             Spacer()
             Button(action: {
               isSheetShowing = true
-              let newTodo = ToDoEntity(context: CoreDataStack.shared.context)
-              newTodo.name = "New To DO from core data again!! with status"
-              newTodo.status = "To do"
-              CoreDataStack.shared.saveContext()
             }) {
               Image(systemName: "plus")
                 .padding()
@@ -67,8 +73,8 @@ struct ContentView: View {
           }
         }
       )
-      .sheet(isPresented: $isSheetShowing ) {
-//        AddToDoView(data: data)
+      .sheet(isPresented: $isSheetShowing) {
+        AddToDoView()
       }
       .onChange(of: isSheetShowing) { isSheetShowing in
         if !isSheetShowing {
@@ -82,23 +88,20 @@ struct ContentView: View {
       CoreDataStack.shared.saveContext()
     }
   }
-  
+
   private func deleteToDoEntries(at offsets: IndexSet) {
     offsets.forEach { index in
       let todo = todos[index]
       viewContext.delete(todo)
     }
-    
+
     do {
       try viewContext.save()
     } catch {
       print("Error deleting entries: \(error)")
     }
   }
-   
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
