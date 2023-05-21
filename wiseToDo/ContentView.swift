@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
   @State private var isSheetShowing: Bool = false
+  @State private var isFilterViewPresented: Bool = false
+  
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest(
@@ -35,10 +37,15 @@ struct ContentView: View {
 
         .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink(destination: FilterTaskView()) {
-              HStack {
-                Image(systemName: "line.3.horizontal.decrease.circle")
-              }
+            HStack {
+              Image(systemName: "line.3.horizontal.decrease.circle")
+                .foregroundColor(Color.blue)
+                .onTapGesture {
+                  isFilterViewPresented = true
+                }
+                .sheet(isPresented: $isFilterViewPresented) {
+                  FilterTaskView()
+                }
             }
           }
           ToolbarItem(placement: .navigationBarLeading) {

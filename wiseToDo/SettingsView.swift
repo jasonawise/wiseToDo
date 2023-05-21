@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
+  @State private var hasCustomStatus = false
+
     var body: some View {
-        Text("Hello, Settings View!!")
+      List {
+        Toggle("Use Custom Status", isOn: $hasCustomStatus)
+        Text("Has custom status").disabled(hasCustomStatus)  .foregroundColor(hasCustomStatus ? .primary : .gray)
+      }
     }
 }
 
