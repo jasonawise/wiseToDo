@@ -16,8 +16,25 @@ struct ToDoDetailView: View {
           Text(toDoDetails.name ?? "" ).font(.title3).fontWeight(.semibold).padding(.leading).frame(maxWidth: .infinity, alignment: .leading)
           List {
             Text("Status: \(toDoDetails.status ?? "")")
+              .swipeActions {
+                if (toDoDetails.status != "Completed") {
+                  Button(action: {
+                    toDoDetails.status = "Competed"
+                    CoreDataStack.shared.saveContext()
+                  }) {
+                    Label("Complete", systemImage: "checkmark")
+                  }
+                  .tint(.green)
+                }
+              }
+                Text("Notes: \(toDoDetails.notes ?? "")")
+                  .foregroundColor(Color.gray)
+                  .frame(height: 100.0, alignment: .top)
+                  .multilineTextAlignment(.trailing)
+                }
+               
           }
-        }
+        
       }
     }
 }

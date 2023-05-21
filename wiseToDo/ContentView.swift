@@ -38,14 +38,14 @@ struct ContentView: View {
         .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
             HStack {
-              Image(systemName: "line.3.horizontal.decrease.circle")
-                .foregroundColor(Color.blue)
-                .onTapGesture {
-                  isFilterViewPresented = true
-                }
-                .sheet(isPresented: $isFilterViewPresented) {
-                  FilterTaskView()
-                }
+//              Image(systemName: "line.3.horizontal.decrease.circle")
+//                .foregroundColor(Color.blue)
+//                .onTapGesture {
+//                  isFilterViewPresented = true
+//                }
+//                .sheet(isPresented: $isFilterViewPresented) {
+//                  FilterTaskView()
+//                }
             }
           }
           ToolbarItem(placement: .navigationBarLeading) {

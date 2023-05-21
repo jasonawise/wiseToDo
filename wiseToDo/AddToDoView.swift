@@ -10,6 +10,8 @@ import SwiftUI
 struct AddToDoView: View {
   @State private var name: String = ""
   @State private var selectedOption: String = "To do"
+  @State private var fullText: String = "Add Notes..."
+
   @ObservedObject var toDoStatus = ToDoStatusModel()
   @Environment(\.presentationMode) var presentationMode
 
@@ -20,24 +22,25 @@ struct AddToDoView: View {
         TextField("Todo ....", text: $name)
       }
       
-      Section(header: Text("Status")) {
-        Picker(selection: $selectedOption, label: Text("Select an option")) {
+      Section(header: Text("Details")) {
+        Picker(selection: $selectedOption, label: Text("Task Status")) {
           ForEach(toDoStatus.status, id: \.status) { option in
             Text(option.status)
           }
         }
-        
-        Button(action: {
-          let newTodo = ToDoEntity(context: CoreDataStack.shared.context)
-          newTodo.name = name
-          newTodo.status = selectedOption
-          CoreDataStack.shared.saveContext()
-          return presentationMode.wrappedValue.dismiss()
-        }) {
-          Text("Add")
-        }
-        
+        TextEditor(text: $fullText)
+          .frame(height: 200)
     }
+      Button(action: {
+        let newTodo = ToDoEntity(context: CoreDataStack.shared.context)
+        newTodo.name = name
+        newTodo.status = selectedOption
+        newTodo.notes = fullText
+        CoreDataStack.shared.saveContext()
+        return presentationMode.wrappedValue.dismiss()
+      }) {
+        Text("Add")
+      }
      
     }
   }
